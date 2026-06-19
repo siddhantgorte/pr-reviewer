@@ -9,8 +9,13 @@ export const auth = betterAuth({
     }),
     socialProviders: { 
     github: { 
-      clientId: process.env.GITHUB_CLIENT_ID as string, 
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+
+      mapProfileToUser: async(profile) => ({
+        email: profile.email ?? `${profile.id}@users.noreply.github.com`,
+        name: profile.name ?? profile.login,
+      })
     }, 
   },
   plugins: [nextCookies()]
